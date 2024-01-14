@@ -1,7 +1,10 @@
 package com.krug.teste.services;
 
+import com.krug.teste.dto.CategoryDTO;
 import com.krug.teste.dto.ProductDTO;
+import com.krug.teste.model.Category;
 import com.krug.teste.model.Product;
+import com.krug.teste.repositories.CategoryRepository;
 import com.krug.teste.repositories.ProductRepository;
 import com.krug.teste.services.exceptions.DatabaseException;
 import com.krug.teste.services.exceptions.ResourceNotFoundException;
@@ -17,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
+    @Autowired
+    private CategoryRepository categoryRepository;
     @Autowired
     private ProductRepository productRepository;
 @Transactional(readOnly = true)
@@ -34,15 +39,16 @@ public class ProductService {
 @Transactional
     public ProductDTO insert(ProductDTO dto) {
          Product entity = new Product();
-//       entity.setName(dto.getName());
+        copyDtoToEntiry(entity , dto);
        entity = productRepository.save(entity);
           return new ProductDTO(entity);
     }
-@Transactional
+
+    @Transactional
     public ProductDTO update(Long id ,ProductDTO dto) {
     try {
         Product entity = productRepository.getReferenceById(id);
-//        entity.setName(dto.getName());
+        copyDtoToEntiry(entity , dto);
         entity = productRepository.save(entity);
         return new ProductDTO(entity);
     }
@@ -61,4 +67,18 @@ public class ProductService {
         throw new DatabaseException("Integrity Violation");
     }
   }
+    private void copyDtoToEntiry(Product entity, ProductDTO dto) {
+            entity.setName(dto.getName());
+            entity.setDate(dto.getDate());
+            entity.setDescription(dto.getDescription());
+            entity.setPrice(dto.getPrice());
+            entity.setImgUrl(dto.getImgUrl());
+
+            entity.getCategories().clear();
+            for(CategoryDTO cat : dto.getCategories()){
+                Category category = categoryRepository.getReferenceById(cat.getId());
+                entity.getCategories().add(category);
+            }
+    }
+
 }
