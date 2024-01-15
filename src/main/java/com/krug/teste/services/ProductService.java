@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +26,8 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 @Transactional(readOnly = true)
-    public Page<ProductDTO> findAllPage(PageRequest pageRequest){
-        Page<Product> list = productRepository.findAll(pageRequest);
+    public Page<ProductDTO> findAllPage(Pageable pageable){
+        Page<Product> list = productRepository.findAll(pageable);
         return list.map(x -> new ProductDTO(x));
     }
 @Transactional(readOnly = true)
@@ -39,7 +40,7 @@ public class ProductService {
 @Transactional
     public ProductDTO insert(ProductDTO dto) {
          Product entity = new Product();
-        copyDtoToEntiry(entity , dto);
+        copyDtoToEntity(entity , dto);
        entity = productRepository.save(entity);
           return new ProductDTO(entity);
     }
@@ -48,7 +49,7 @@ public class ProductService {
     public ProductDTO update(Long id ,ProductDTO dto) {
     try {
         Product entity = productRepository.getReferenceById(id);
-        copyDtoToEntiry(entity , dto);
+        copyDtoToEntity(entity , dto);
         entity = productRepository.save(entity);
         return new ProductDTO(entity);
     }
@@ -67,7 +68,7 @@ public class ProductService {
         throw new DatabaseException("Integrity Violation");
     }
   }
-    private void copyDtoToEntiry(Product entity, ProductDTO dto) {
+    private void copyDtoToEntity(Product entity, ProductDTO dto) {
             entity.setName(dto.getName());
             entity.setDate(dto.getDate());
             entity.setDescription(dto.getDescription());
