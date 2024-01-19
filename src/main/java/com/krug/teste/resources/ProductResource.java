@@ -25,7 +25,7 @@ public class ProductResource {
     public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
 //    parametros: page , size , sort
     Page<ProductDTO> list = service.findAllPage(pageable);
-        return ResponseEntity.accepted().body(list);    }
+        return ResponseEntity.ok().body(list);    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id){

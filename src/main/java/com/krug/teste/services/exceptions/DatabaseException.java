@@ -4,7 +4,7 @@ import org.springframework.dao.DataAccessException;
 
 import java.io.Serial;
 
-public class DatabaseException extends DataAccessException {
+public class DatabaseException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
 

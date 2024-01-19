@@ -16,8 +16,8 @@ public class Category implements Serializable {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-//@ManyToMany(mappedBy = "categories")
-//    private Set<Product>products = new HashSet<>();
+@ManyToMany(mappedBy = "categories")
+    private Set<Product> products = new HashSet<>();
     public Category(){
     }
 
@@ -43,9 +43,9 @@ public class Category implements Serializable {
     }
 
 
-//    public Set<Product> getProducts() {
-//        return products;
-//    }
+    public Set<Product> getProducts() {
+        return products;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -58,15 +58,12 @@ public class ProductService {
     }
     }
     public void delete(Long id) {
-    try {
-        productRepository.deleteById(id);
-    }
-    catch (EmptyResultDataAccessException e){
-        throw new ResourceNotFoundException("Id not found "+id);
-    }
-    catch (DataIntegrityViolationException e ){
-        throw new DatabaseException("Integrity Violation");
-    }
+        if(productRepository.findById(id).isPresent()){
+            productRepository.deleteById(id);
+        }
+        else{
+            throw new DatabaseException("id not found "+id);
+        }
   }
     private void copyDtoToEntity(Product entity, ProductDTO dto) {
             entity.setName(dto.getName());
