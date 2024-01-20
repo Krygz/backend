@@ -3,6 +3,10 @@ package com.krug.teste.dto;
 import com.krug.teste.model.Category;
 import com.krug.teste.model.Product;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,12 +19,14 @@ public class ProductDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private Long id;
+    @Size(min = 5 , max = 60 , message = "deve ter entre 5 há 60 caracteres")
+    @NotBlank(message = "campo requerido")
     private String name;
-
     private String description;
+    @Positive(message = "positive price")
     private Double price;
     private String imgUrl;
-
+    @PastOrPresent(message = "data do produto não pode ser futura")
     private Instant date;
 
     private List<CategoryDTO> categories = new ArrayList<>();
