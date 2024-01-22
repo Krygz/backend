@@ -3,6 +3,7 @@ package com.krug.teste.resources;
 import com.krug.teste.dto.  ProductDTO;
 import com.krug.teste.dto.UserDTO;
 import com.krug.teste.dto.UserInsertDTO;
+import com.krug.teste.dto.UserUpdateDTO;
 import com.krug.teste.services.ProductService;
 import com.krug.teste.services.UserService;
 import jakarta.validation.Valid;
@@ -43,9 +44,9 @@ public class UserResource {
         return ResponseEntity.created(uri).body(newDto);
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update( @PathVariable Long id, @Valid @RequestBody UserDTO dto) {
-        dto = service.update(id, dto);
-        return ResponseEntity.ok().body(dto);
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto) {
+        UserDTO newDto = service.update(id, dto);
+        return ResponseEntity.ok().body(newDto);
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete( @PathVariable Long id){
