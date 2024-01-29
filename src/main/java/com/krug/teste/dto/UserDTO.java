@@ -1,6 +1,8 @@
 package com.krug.teste.dto;
 
+import com.krug.teste.model.Role;
 import com.krug.teste.model.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,20 +22,16 @@ public class UserDTO implements Serializable {
     private Long id;
     @NotBlank(message = "Campo obrigatório")
     private String firstName;
+    @NotBlank(message = "Campo obrigatório")
     private String lastName;
     @Email(message = "Enter a valid email")
     private String email;
 
-    Set<RoleDTO> roles = new HashSet<>();
+    private String password;
+
+    private Role role;
 
     public UserDTO() {
-    }
-
-    public UserDTO(Long id, String firstName, String lastName, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
     }
 
 
@@ -42,9 +40,10 @@ public class UserDTO implements Serializable {
         firstName = user.getFirstName();
         lastName = user.getLastName();
         email = user.getEmail();
-        user.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
+        role = user.getRole();
 
     }
+
 
     public Long getId() {
         return id;
@@ -78,8 +77,21 @@ public class UserDTO implements Serializable {
         this.email = email;
     }
 
-    public Set<RoleDTO> getRoles() {
-        return roles;
+    public String getPassword() {
+        return password;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
 }
 

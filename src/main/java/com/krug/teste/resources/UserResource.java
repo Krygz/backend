@@ -1,10 +1,6 @@
 package com.krug.teste.resources;
 
-import com.krug.teste.dto.  ProductDTO;
 import com.krug.teste.dto.UserDTO;
-import com.krug.teste.dto.UserInsertDTO;
-import com.krug.teste.dto.UserUpdateDTO;
-import com.krug.teste.services.ProductService;
 import com.krug.teste.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +30,7 @@ public class UserResource {
         return ResponseEntity.ok().body(dto);
     }
 @PostMapping
-    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto){
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserDTO dto){
         UserDTO newDto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder
          .fromCurrentRequest()
@@ -44,7 +40,7 @@ public class UserResource {
         return ResponseEntity.created(uri).body(newDto);
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto) {
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
         UserDTO newDto = service.update(id, dto);
         return ResponseEntity.ok().body(newDto);
     }
